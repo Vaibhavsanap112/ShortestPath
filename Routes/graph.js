@@ -1,16 +1,30 @@
 const express = require('express');
 const router = express.Router();
-const City = require('../Models/City');
+const City = require('../Modules/cities');
 const dijkstra = require('../utils/dijkstra');
+const path = require('path');
+const fs = require('fs');
 
-// Get full graph
-router.get('/graph', async(req, res) => {
-    try {
-        const cities = await City.find();
-        res.json(cities);
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch graph data' });
+
+
+// Get full graphr
+router.get('/graph', (req, res) => {
+const filePath = path.join(__dirname, '..', 'utils', 'cities.json');
+
+
+  fs.readFile(filePath, 'utf-8', (err, data) => {
+    if (err) {
+      console.error('Error reading JSON file:', err);
+      return res.status(500).json({ error: 'Failed to fetch graph data' });
     }
+
+    try {
+      const graph = JSON.parse(data);
+      res.json(graph);
+    } catch (parseErr) {
+      res.status(500).json({ error: 'Invalid JSON format' });
+    }
+  });
 });
 
 // Get shortest path using Dijkstra
