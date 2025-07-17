@@ -1,0 +1,40 @@
+[{
+        "name": "Pune",
+        "connections": [
+            { "destination": "Mumbai", "weight": 4 },
+            { "destination": "Kopargaon", "weight": 2 }
+        ]
+    },
+    {
+        "name": "Mumbai",
+        "connections": [
+            { "destination": "Pune", "weight": 4 },
+            { "destination": "Kopargaon", "weight": 5 },
+            { "destination": "Nashik", "weight": 10 }
+        ]
+    },
+    {
+        "name": "Kopargaon",
+        "connections": [
+            { "destination": "Pune", "weight": 2 },
+            { "destination": "Mumbai", "weight": 5 },
+            { "destination": "Nashik", "weight": 3 },
+            { "destination": "Goa", "weight": 4 }
+        ]
+    },
+    {
+        "name": "Nashik",
+        "connections": [
+            { "destination": "Mumbai", "weight": 10 },
+            { "destination": "Kopargaon", "weight": 3 },
+            { "destination": "Goa", "weight": 6 }
+        ]
+    },
+    {
+        "name": "Goa",
+        "connections": [
+            { "destination": "Kopargaon", "weight": 4 },
+            { "destination": "Nashik", "weight": 6 }
+        ]
+    }
+]
