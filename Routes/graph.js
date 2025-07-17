@@ -9,6 +9,10 @@ const fs = require('fs');
 
 // Get full graphr
 router.get('/graph', (req, res) => {
+
+    
+  
+
 const filePath = path.join(__dirname, '..', 'utils', 'cities.json');
 
 
@@ -17,7 +21,6 @@ const filePath = path.join(__dirname, '..', 'utils', 'cities.json');
       console.error('Error reading JSON file:', err);
       return res.status(500).json({ error: 'Failed to fetch graph data' });
     }
-
     try {
       const graph = JSON.parse(data);
       res.json(graph);

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Graph Visualizer</title>
+<!-- Add this in your HTML head or before the body ends -->
+<script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+
+  <style>#mynetwork { width: 100%; height: 600px; border: 1px solid lightgray; }</style>
+</head>
+<body>
+  <h2>Dijkstra's Shortest Path</h2>
+  <label>Source:</label><input id="src" />
+  <label>Destination:</label><input id="dest" />
+  <button onclick="getPath()">Get Shortest Path</button>
+  <div id="mynetwork"></div>
+
+  <script>
+    let network;
+    async function drawGraph() {
+      const res = await fetch('/api/graph');
+      const data = await res.json();
+
+      const nodes = data.map(city => ({ id: city.name, label: city.name }));
+      const edges = [];
+      data.forEach(city => {
+        city.connections.forEach(con => {
+          edges.push({ from: city.name, to: con.destination, label: con.weight.toString() });
+        });
+      });
+
+      const container = document.getElementById('mynetwork');
+      const visData = { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) };
+      network = new vis.Network(container, visData, {});
+    }
+
+    async function getPath() {
+      const src = document.getElementById('src').value;
+      const dest = document.getElementById('dest').value;
+      const res = await fetch(`/api/shortest-path?src=${src}&dest=${dest}`);
+      const data = await res.json();
+
+      network.setOptions({
+        edges: {
+          color: {
+            inherit: false
+          }
+        }
+      });
+
+      network.selectNodes(data.path);
+    }
+
+    drawGraph();
+  </script>
+</body>
+</html>
