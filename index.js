@@ -1,10 +1,15 @@
-const http = require('http');
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const graphRoutes = require('./Routes/graph');
 
-const server = http.createServer((req, res) => {
-  res.write('Hello from Node.js!');
-  res.end();
-});
+const app = express();
+app.use(cors());
+app.use(express.static('public'));
+app.use('/api', graphRoutes);
 
-server.listen(3000, () => {
-  console.log('Server running at http://localhost:3000');
-});
+mongoose.connect('mongodb://localhost:27017/graphdb')
+    .then(() => console.log('MongoDB Connected'))
+    .catch(err => console.error(err));
+
+app.listen(3000, () => console.log('Server on http://localhost:3000'));
